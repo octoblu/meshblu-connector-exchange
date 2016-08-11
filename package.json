@@ -33,7 +33,9 @@
     "fs-cson": "^0.3.2",
     "meshblu-config": "^5.2.0",
     "meshblu-connector-runner": "^9.1.1",
-    "meshblu-connector-schema-generator": "^2.1.0"
+    "meshblu-connector-schema-generator": "^2.1.0",
+    "wincredmgr": "^2.0.0",
+    "ews-javascript-api": "^0.6.0"
   },
   "meshbluConnector": {
     "githubSlug": "octoblu/meshblu-connector-exchange"

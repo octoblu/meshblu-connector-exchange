@@ -16,9 +16,10 @@ class Connector extends EventEmitter
     callback()
 
   setEws: () =>
+    return unless @options.username?
     @autod.Credentials = new ews.ExchangeCredentials(@options.username, @options.password)
 
-  getUserSettings: (userEmails) =>
+  getUserSettings: (userEmails, callback) =>
     settings = [
       ews.UserSettingName.InternalEwsUrl,
       ews.UserSettingName.ExternalEwsUrl,
@@ -36,12 +37,12 @@ class Connector extends EventEmitter
 
     @autod.GetUserSettings(userEmails, settings)
     .then(response) =>
-      console.log response
+      callback response
 
-    FindAppointments: (opts={}) =>
+    FindAppointments: (opts={}, callback) =>
       @autod.FindAppointments()
       .then(response) =>
-        console.log response
+        callback response
 
   onConfig: (device={}) =>
     { @options } = device

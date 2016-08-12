@@ -1,0 +1,8 @@
+title: 'Get User Settings'
+type: 'object'
+properties:
+  emails:
+    type: "array"
+    items:
+      type: "string"
+      title: "Email"

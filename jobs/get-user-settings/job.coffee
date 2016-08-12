@@ -6,7 +6,7 @@ class GetUserSettings
 
   do: ({data}, callback) =>
     return callback @_userError(422, 'data.emails is required') unless data?.emails?
-    @connector.GetUserSettings (data.emails, response) =>
+    @connector.GetUserSettings data.emails, (response) =>
       metadata =
         code: 200
         status: http.STATUS_CODES[200]

@@ -6,7 +6,7 @@ class FindAppointments
 
   do: ({data}, callback) =>
     # return callback @_userError(422, 'data.example is required') unless data?.example?
-    @connector.FindAppointments (response) =>
+    @connector.FindAppointments {}, (response) =>
       metadata =
         code: 200
         status: http.STATUS_CODES[200]

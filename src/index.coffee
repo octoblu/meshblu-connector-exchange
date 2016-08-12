@@ -5,7 +5,7 @@ ews             = require 'ews-javascript-api'
 class Connector extends EventEmitter
   constructor: ->
     exchangeVersion = ews.ExchangeVersion.Exchange2010
-    exchangeUrl = "https://autodiscover-s.outlook.com/autodiscover/autodiscover.svc"
+    exchangeUrl = "https://autodiscover.citrix.com/"
     @autod = new ews.AutodiscoverService(new ews.Uri(exchangeUrl), exchangeVersion)
 
   isOnline: (callback) =>
@@ -18,6 +18,7 @@ class Connector extends EventEmitter
   setEws: () =>
     return unless @options.username?
     @autod.Credentials = new ews.ExchangeCredentials(@options.username, @options.password)
+    console.log @autod
 
   GetUserSettings: (userEmails, callback) =>
     settings = [
@@ -36,13 +37,17 @@ class Connector extends EventEmitter
       ]
 
     @autod.GetUserSettings(userEmails, settings)
-    .then(response) =>
+    .then((response) =>
       callback response
+    )
+
 
   FindAppointments: (opts={}, callback) =>
+    console.log @autod
     @autod.FindAppointments()
-    .then(response) =>
+    .then((response) =>
       callback response
+    )
 
   onConfig: (device={}) =>
     { @options } = device

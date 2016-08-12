@@ -1,2 +1,5 @@
 title: 'Find Appointments'
 type: 'object'
+properties:
+  data:
+    type: 'object'

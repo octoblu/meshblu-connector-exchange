@@ -5,6 +5,9 @@ properties:
     title: "Options"
     type: "object"
     properties:
+      email:
+        title: "Email"
+        type: "string"
       username:
         title: "Username"
         type: "string"
@@ -12,6 +15,7 @@ properties:
         title: "Password"
         type: "string"
     required: [
+      "email"
       "username"
       "password"
     ]

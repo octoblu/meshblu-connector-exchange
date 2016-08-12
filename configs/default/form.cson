@@ -1,3 +1,5 @@
 angular: [
-  { key: "options" }
+  "options.email"
+  "options.username"
+  { key: "options.password", type: "password"}
 ]

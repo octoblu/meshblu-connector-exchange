@@ -5,8 +5,8 @@ ews             = require 'ews-javascript-api'
 class Connector extends EventEmitter
   constructor: ->
     exchangeVersion = ews.ExchangeVersion.Exchange2010
-    exchangeUrl = "https://autodiscover.citrix.com/"
-    @autod = new ews.AutodiscoverService(new ews.Uri(exchangeUrl), exchangeVersion)
+    @exch = new ews.ExchangeService(exchangeVersion)
+    @autod = new ews.AutodiscoverService(exchangeVersion)
 
   isOnline: (callback) =>
     callback null, running: true
@@ -17,8 +17,13 @@ class Connector extends EventEmitter
 
   setEws: () =>
     return unless @options.username?
-    @autod.Credentials = new ews.ExchangeCredentials(@options.username, @options.password)
-    console.log @autod
+    @exch.Url = @exch.AutodiscoverUrl(@options.email)
+    @exch.Credentials = new ews.ExchangeCredentials(@options.username, @options.password)
+    debug 'Exchange Service Credentials Set', @exch
+
+  setAutod: () =>
+    return unless @options.username?
+    @autod.Credentials = new ews.ExchangeCredentials(@options.username, @options.password);
 
   GetUserSettings: (userEmails, callback) =>
     settings = [
@@ -43,16 +48,27 @@ class Connector extends EventEmitter
 
 
   FindAppointments: (opts={}, callback) =>
-    console.log @autod
-    @autod.FindAppointments()
+    @exch.FindAppointments()
     .then((response) =>
       callback response
     )
+
+  GetUserAvailability: (emails, callback) =>
+    attendee = []
+    emails.forEach (email) =>
+      attendee.push new (ews.AttendeeInfo)(email)
+
+    timeWindow = new (ews.TimeWindow)(ews.DateTime.Now, new (ews.DateTime)(ews.DateTime.Now.TotalMilliSeconds + ews.TimeSpan.FromHours(48).asMilliseconds()))
+    @exch.GetUserAvailability(attendee, timeWindow, ews.AvailabilityData.FreeBusyAndSuggestions).then ((availabilityResponse) =>
+      callback availabilityResponse
+    ), (errors) ->
+      return
 
   onConfig: (device={}) =>
     { @options } = device
     debug 'on config', @options
     @setEws()
+    @setAutod()
 
   start: (device, callback) =>
     debug 'started'

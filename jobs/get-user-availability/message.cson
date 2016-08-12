@@ -1,0 +1,11 @@
+title: 'Get User Availability'
+type: 'object'
+properties:
+  data:
+    type: 'object'
+    properties:
+      emails:
+        type: "array"
+        items:
+          type: "string"
+          title: "Attendee"

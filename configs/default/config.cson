@@ -5,9 +5,13 @@ properties:
     title: "Options"
     type: "object"
     properties:
-      example:
-        title: "Example String"
+      username:
+        title: "Username"
+        type: "string"
+      password:
+        title: "Password"
         type: "string"
     required: [
-      "example"
+      "username"
+      "password"
     ]
